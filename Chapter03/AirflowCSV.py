@@ -13,7 +13,7 @@ def csvToJson():
         print(r['name'])
     df.to_json('fromAirflow.json',orient='records')
 
-	
+
 
 
 default_args = {
@@ -31,9 +31,9 @@ with DAG('MyCSVDAG',
 
     print_starting = BashOperator(task_id='starting',
                                bash_command='echo "I am reading the CSV now....."')
-    
+
     csvJson = PythonOperator(task_id='convertCSVtoJson',
                                  python_callable=csvToJson)
 
 
-print_starting >> csvJson
+# print_starting >> csvJson
