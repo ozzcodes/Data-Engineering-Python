@@ -7,13 +7,12 @@ from airflow.operators.python_operator import PythonOperator
 
 import pandas as pd
 
+
 def csvToJson():
-    df=pd.read_csv('/home/paulcrickard/data.csv')
-    for i,r in df.iterrows():
+    df = pd.read_csv('/home/paulcrickard/data.csv')
+    for i, r in df.iterrows():
         print(r['name'])
-    df.to_json('fromAirflow.json',orient='records')
-
-
+    df.to_json('fromAirflow.json', orient='records')
 
 
 default_args = {
@@ -23,17 +22,14 @@ default_args = {
     'retry_delay': dt.timedelta(minutes=5),
 }
 
-
 with DAG('MyCSVDAG',
          default_args=default_args,
-         schedule_interval=timedelta(minutes=5),      # '0 * * * *',
+         schedule_interval=timedelta(minutes=5),  # '0 * * * *',
          ) as dag:
-
     print_starting = BashOperator(task_id='starting',
-                               bash_command='echo "I am reading the CSV now....."')
+                                  bash_command='echo "I am reading the CSV now....."')
 
     csvJson = PythonOperator(task_id='convertCSVtoJson',
-                                 python_callable=csvToJson)
-
+                             python_callable=csvToJson)
 
 # print_starting >> csvJson
