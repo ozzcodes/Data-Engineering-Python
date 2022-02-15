@@ -32,4 +32,4 @@ with DAG('MyCSVDAG',
     csvJson = PythonOperator(task_id='convertCSVtoJson',
                              python_callable=csvToJson)
 
-# print_starting >> csvJson
+print_starting >> csvJson
